@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <form id="customerForm" action="{{ url_for('customer') }}" method="POST">
+        <label for="customerId">Customer ID:</label>
+        <input type="text" id="customerId" name="customerId" required>
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="customerName" required>
+        <label for="customerDate">Customer Date:</label>
+        <input type="date" id="customerDate" name="customerDate" required>
+        <label for="customerAddress">Customer Address:</label>
+        <input type="text" id="customerAddress" name="customerAddress" required>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        <label for="options">Options:</label>
+        <input type="text" id="options" name="options" required>
+        <button type="submit">Submit</button>
+    </form>
+   
+</body>
+</html>
