@@ -3,24 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <title>Customer Form</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='customer.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <form id="customerForm" action="{{ url_for('customer') }}" method="POST">
-        <label for="customerId">Customer ID:</label>
-        <input type="text" id="customerId" name="customerId" required>
-        <label for="customerName">Customer Name:</label>
-        <input type="text" id="customerName" name="customerName" required>
-        <label for="customerDate">Customer Date:</label>
-        <input type="date" id="customerDate" name="customerDate" required>
-        <label for="customerAddress">Customer Address:</label>
-        <input type="text" id="customerAddress" name="customerAddress" required>
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required>
-        <label for="options">Options:</label>
-        <input type="text" id="options" name="options" required>
-        <button type="submit">Submit</button>
+        
+        <div class="segment container">
+            <div class="row">
+                <div class="col"> 
+                   <h1>New Customer</h1>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                   <label for="customerId">
+                     <input type="text" id="customerId" name="customerId" placeholder="Customer ID" required>
+                   </label>
+                   <label for="customerName">
+                      <input type="text" id="customerName" name="customerName" placeholder="Customer Name:" required>
+                   </label>
+                   <label for="customerAddress">
+                      <input type="text" id="customerAddress" name="customerAddress" placeholder="Customer Address:" required>
+                   </label>
+                </div>
+        
+                <div class="col">
+                   <label for="term">
+                      <select name="term" id="term" name="term" placeholder="Term:" required>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                      </select>
+                   </label>
+                   <label for="fromDate">
+                      <input type="date" id="fromDate" name="fromDate" placeholder="From Date:" required>
+                   </label>
+                   <label for="toDate">
+                       <input type="date" id="toDate" name="toDate" placeholder="To Date" required>
+                   </label>
+                </div>
+            </div>
+        </div>
+        
+            <div class="row">
+                <div class="col">
+                   <label for="amount">
+                       <input type="number" id="amount" name="amount" placeholder="Amount" required>
+                    </label>
+                </div>
+        
+                <div class="col">
+                    <label for="intrest">
+                        <input type="number" id="intrest" name="intrest" placeholder="Intrest" required>
+                    </label>
+                </div>
+       
+                <div class="col">
+                   <label for="installmentAmount">
+                       <input type="number" id="installmentAmount" name="installmentAmount" placeholder="Installment Amount:" required>
+                    </label>
+                </div>
+            </div>
+
+       
+            <div class="row">
+                <div class="col">
+                    <label for="totalPaid">
+                      <input type="number" id="totalPaid" name="totalPaid" placeholder="Total Paid:" required>
+                    </label>
+                </div>
+       
+                <div class="col">
+                    <label for="totalBalance">
+                        <input type="number" id="totalBalance" name="totalBalance" placeholder="Total Balance:" required>
+                    </label>
+                </div>
+            </div>
+        
+        <div class="row">
+            <div class="col">
+                <button class="red" type="button"><i class="icon ion-md-lock"></i> Save</button>
+            </div>
+        </div>
+    </div>
     </form>
-   
 </body>
 </html>

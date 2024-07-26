@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Data Table</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <table class="table table-hover table-dark" action="{{ url_for('data') }}" method="POST">
+        <thead>
+          <tr>
+            <th scope="col">customerId</th>
+            <th scope="col">customerName</th>
+            <th scope="col">customerDate</th>
+            <th scope="col">customerAddress</th>
+            <th scope="col">amount</th>
+            <th scope="col">options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for customer in customers %}
+          <tr>
+            <td>{{customer['customerId']}}</td>
+            <td>{{customer['customerName']}}</td>
+            <td>{{customer['customerDate']}}</td>
+            <td>{{customer['customerAddress']}}</td>
+            <td>{{customer['amount']}}</td>
+            <td>{{customer['options']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</body>
+</html>
