@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'myfinanacedata'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1736654D56CF434EAC462D36FDECC07D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6ED65D9A281441978AC1DE426EB27BED }}
