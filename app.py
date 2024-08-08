@@ -1,4 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+import pymysql
+import pypyodbc as odbc
+import pandas as pd
+from datetime import datetime
+import mysql.connector
 
 app = Flask(__name__)
 app.secret_key = '220021'
@@ -45,77 +50,93 @@ def goto_customer():
 # Route for posting form
 @app.route('/posting', methods=['GET', 'POST'])
 def posting():
-    if request.method == 'POST':
-        customer_id = request.form['customerId']
-        posting_date = request.form['postingDate']
-        amount = request.form['amount']
-        
-        # Log data for demonstration
-        app.logger.info({
-            'customerId': customer_id,
-            'postingDate': posting_date,
-            'amount': amount
-        })
-        
-        flash("Customer data saved successfully!", "success")
-        return redirect(url_for('posting'))
     return render_template('posting.html')
+
+@app.route('/submitpost', methods=['POST'])
+def submitpost():
+    # Connect to the database
+    connection_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:finanacedata.database.windows.net,1433;Database=findata;Uid=jaya;Pwd={Krishna@2244};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
+    conn = odbc.connect(connection_string)
+    cursor = conn.cursor()
+    if request.method == 'POST':
+        customer_id = request.form.get('customerId')
+        posting_date = request.form.get('postingDate')
+        postingdate = datetime.strptime(posting_date, '%Y-%m-%d').date()
+        amount = request.form.get('amount')
+        
+    cursor.execute("INSERT INTO POSTING (customerId, date, amount) VALUES (?, ?, ?)", (customer_id, postingdate, amount))
+
+    conn.commit()
+    cursor.close()
+    conn.close()   
+    return redirect(url_for('posting'))
+
+db_config = {
+    'user' : 'jaya',
+    'password' : 'Krishna@2244',
+    'host' : 'finanacedata.database.windows.net',
+    'database' : 'findata'
+}
+
+
 
 # Route for customer form
 @app.route('/customer', methods=['GET', 'POST'])
 def customer():
-    if request.method == 'POST':
-        customer_id = request.form['customerId']
-        customer_name = request.form['customerName']
-        customer_date = request.form['customerDate']
-        customer_address = request.form['customerAddress']
-        amount = request.form['amount']
-        options = request.form['options']
-
-        # Log data for demonstration
-        app.logger.info({
-            'customerId': customer_id,
-            'customerName': customer_name,
-            'customerDate': customer_date,
-            'customerAddress': customer_address,
-            'amount': amount,
-            'options': options
-        })
-
-        flash("Customer data saved successfully!", "success")
-        return redirect(url_for('customer'))
     return render_template('customer.html')
+
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    # Connect to the database
+    connection_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:finanacedata.database.windows.net,1433;Database=findata;Uid=jaya;Pwd={Krishna@2244};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
+    conn = odbc.connect(connection_string)
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        customer_id = request.form.get('customerId')
+        customer_name = request.form.get('customerName')
+        customer_address = request.form.get('customerAddress')
+        term = request.form.get('term')
+        fromDate = request.form.get('fromDate')
+        fromdate = datetime.strptime(fromDate, '%Y-%m-%d').date()
+        toDate = request.form.get('toDate')
+        todate = datetime.strptime(toDate, '%Y-%m-%d').date()
+        amount = request.form.get('amount')
+        intrest = request.form.get('intrest')
+        installmentAmount = request.form.get('installmentAmount')
+        totalPaid = request.form.get('totalPaid')
+        totalBalance = request.form.get('totalBalance')
+
+
+    # Insert data into the table
+    cursor.execute("INSERT INTO CUSTOMERS (customerId, customerName, customerAddress, term, fromDate, toDate, amount, interest, installmentAmount, totalPaid, totalBalance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (customer_id, customer_name, customer_address, term, fromdate, todate, amount, intrest, installmentAmount, totalPaid, totalBalance))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect('/customer')
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
-    return render_template('data.html', customers = CUSTOMERS)
+     # Connect to the database
+    connection_string = 'Driver={ODBC Driver 18 for SQL Server};Server=tcp:finanacedata.database.windows.net,1433;Database=findata;Uid=jaya;Pwd={Krishna@2244};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30'
+    conn = odbc.connect(connection_string)
+    cursor = conn.cursor()
 
-CUSTOMERS =[
-{
-    'customerId': 1,
-    'customerName':'naveen',
-    'customerDate': '03/21/2024',
-    'customerAddress': 'anaparthi',
-    'amount': "25,000",
-    'options': 'monthly'
-},
-{
-    'customerId': 2,
-    'customerName':'surya',
-    'customerDate': '03/29/2024',
-    'customerAddress': 'ravaram',
-    'amount': "28,000",
-    'options': 'weekly'
-},
-{
-    'customerId': 3,
-    'customerName':'siva',
-    'customerDate': '03/23/2024',
-    'customerAddress': 'rajhmundry',
-    'amount': "29,000",
-    'options': 'daily'
-}]
+    # Fetch data from the table
+    cursor.execute("SELECT * FROM customers")
+    customers_data = cursor.fetchall()
 
+    cursor.execute("SELECT * FROM posting")
+    postings_data = cursor.fetchall()
+
+    # Close the connection
+    cursor.close()
+    conn.close()
+
+    return render_template('data.html', customers=customers_data, postings=postings_data)
 
 
 
