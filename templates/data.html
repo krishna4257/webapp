@@ -3,33 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Data Table</title>
+    <title>Data</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+      function showTable(tableId) {
+          document.getElementById('customersTable').style.display = 'none';
+          document.getElementById('postingsTable').style.display = 'none';
+          document.getElementById(tableId).style.display = 'block';
+      }
+
+      // Show the customers table by default when the page loads
+      document.addEventListener("DOMContentLoaded", function() {
+          showTable('customersTable');
+      });
+  </script>
 </head>
 <body>
-    <table class="table table-hover table-dark" action="{{ url_for('data') }}" method="POST">
-        <thead>
-          <tr>
-            <th scope="col">customerId</th>
-            <th scope="col">customerName</th>
-            <th scope="col">customerDate</th>
-            <th scope="col">customerAddress</th>
-            <th scope="col">amount</th>
-            <th scope="col">options</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for customer in customers %}
-          <tr>
-            <td>{{customer['customerId']}}</td>
-            <td>{{customer['customerName']}}</td>
-            <td>{{customer['customerDate']}}</td>
-            <td>{{customer['customerAddress']}}</td>
-            <td>{{customer['amount']}}</td>
-            <td>{{customer['options']}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <button onclick="showTable('customersTable')">Customers</button>
+    <button onclick="showTable('postingsTable')">Postings</button>
+  <div class="table-responsive" id="customersTable">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Customer ID</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Customer Address</th>
+          <th scope="col">Term</th>
+          <th scope="col">From Date</th>
+          <th scope="col">To Date</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Intrest</th>
+          <th scope="col">Installment Amount</th>
+          <th scope="col">Total Paid</th>
+          <th scope="col">Total Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        <tr>
+            <td scope="row">{{ customer[0] }}</td>
+            <td>{{ customer[1] }}</td>
+            <td>{{ customer[2] }}</td>
+            <td>{{ customer[3] }}</td>
+            <td>{{ customer[4] }}</td>
+            <td>{{ customer[5] }}</td>
+            <td>{{ customer[6] }}</td>
+            <td>{{ customer[7] }}</td>
+            <td>{{ customer[8] }}</td>
+            <td>{{ customer[9] }}</td>
+            <td>{{ customer[10] }}</td>
+            <td>{{ customer[11] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-responsive" id="postingsTable">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Customer ID</th>
+          <th scope="col">date</th>
+          <th scope="col">amount</th>
+      </thead>
+      <tbody>
+        {% for posting in postings %}
+        <tr>
+            <td scope="row">{{ posting[1] }}</td>
+            <td>{{ posting[2] }}</td>
+            <td>{{ posting[3] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>
